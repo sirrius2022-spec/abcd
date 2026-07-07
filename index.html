@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHI-PORTFOLIO | 건축학과 포트폴리오</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons (Modern icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        arch: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                            accent: '#2563eb', // Blueprint Blue
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        }
+        /* Blueprint grid pattern background */
+        .blueprint-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+        }
+        .dark .blueprint-grid {
+            background-image: linear-gradient(to right, rgba(51, 65, 85, 0.15) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(51, 65, 85, 0.15) 1px, transparent 1px);
+        }
+        /* Custom scrollbar for minimalist look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-arch-50 text-arch-900 dark:bg-arch-950 dark:text-arch-100 transition-colors duration-300 blueprint-grid min-h-screen flex flex-col">
+
+    <!-- -->
+    <!-- NAVIGATION BAR -->
+    <nav class="fixed top-0 left-0 w-full z-40 bg-white/80 dark:bg-arch-950/80 backdrop-blur-md border-b border-arch-200 dark:border-arch-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 font-bold text-lg tracking-widest uppercase">
+                <span class="text-arch-accent font-extrabold">//</span> ARCH.PORTFOLIO
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#about" class="hover:text-arch-accent transition-colors">ABOUT</a>
+                <a href="#projects" class="hover:text-arch-accent transition-colors">PROJECTS</a>
+                <a href="#experience" class="hover:text-arch-accent transition-colors">EXPERIENCE</a>
+                <a href="#contact" class="hover:text-arch-accent transition-colors">CONTACT</a>
+                <!-- GUESTBOOK LINK ADDED -->
+                <a href="https://padlet.com/sirrius2022/padlet-1h4n4p8bg8v71psw" target="_blank" rel="noopener noreferrer" class="hover:text-arch-accent transition-colors flex items-center gap-1 font-bold text-arch-accent">
+                    <span>GUESTBOOK</span>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+                
+                <!-- Dark Mode Toggle Button -->
+                <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-arch-100 dark:hover:bg-arch-900 transition-colors" aria-label="Theme Toggle">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-yellow-400"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-arch-700"></i>
+                </button>
+
+                <!-- PDF Portfolio Quick Button -->
+                <button onclick="openPdfModal()" class="px-4 py-2 bg-arch-900 text-white dark:bg-white dark:text-arch-950 text-xs tracking-wider rounded-lg font-bold hover:bg-arch-accent dark:hover:bg-arch-accent dark:hover:text-white transition-all flex items-center gap-2 shadow-sm">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i> PDF DOWN
+                </button>
+            </div>
+
+            <!-- Mobile Action Row -->
+            <div class="flex items-center gap-4 md:hidden">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-arch-100 dark:hover:bg-arch-900 transition-colors" aria-label="Theme Toggle">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-yellow-400"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-arch-700"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="p-2 text-arch-900 dark:text-white" aria-label="Toggle Menu">
+                    <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU DRAWER -->
+    <div id="mobile-menu" class="fixed inset-0 top-16 bg-white dark:bg-arch-950 z-30 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col px-6 py-8 gap-6 border-t border-arch-100 dark:border-arch-900">
+        <a href="#about" onclick="toggleMobileMenu()" class="text-xl font-bold tracking-wide border-b border-arch-100 dark:border-arch-900 pb-3">ABOUT</a>
+        <a href="#projects" onclick="toggleMobileMenu()" class="text-xl font-bold tracking-wide border-b border-arch-100 dark:border-arch-900 pb-3">PROJECTS</a>
+        <a href="#experience" onclick="toggleMobileMenu()" class="text-xl font-bold tracking-wide border-b border-arch-100 dark:border-arch-900 pb-3">EXPERIENCE</a>
+        <a href="#contact" onclick="toggleMobileMenu()" class="text-xl font-bold tracking-wide border-b border-arch-100 dark:border-arch-900 pb-3">CONTACT</a>
+        <!-- MOBILE GUESTBOOK LINK ADDED -->
+        <a href="https://padlet.com/sirrius2022/padlet-1h4n4p8bg8v71psw" target="_blank" rel="noopener noreferrer" onclick="toggleMobileMenu()" class="text-xl font-bold tracking-wide border-b border-arch-100 dark:border-arch-900 pb-3 flex items-center justify-between text-arch-accent">
+            <span>GUESTBOOK (방명록)</span>
+            <i data-lucide="external-link" class="w-5 h-5"></i>
+        </a>
+        <button onclick="openPdfModal(); toggleMobileMenu()" class="w-full mt-4 py-3 bg-arch-900 text-white dark:bg-white dark:text-arch-950 rounded-lg font-bold tracking-wider flex items-center justify-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i> PDF 포트폴리오 다운로드
+        </button>
+    </div>
+
+    <!-- -->
+    <!-- HERO SECTION -->
+    <section class="min-h-screen pt-24 pb-16 px-6 max-w-7xl mx-auto flex flex-col justify-center relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left: Headline & Introduction -->
+            <div class="lg:col-span-7 space-y-6 z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-arch-300 dark:border-arch-700 text-xs font-semibold uppercase tracking-wider bg-white/50 dark:bg-arch-900/50 backdrop-blur">
+                    <span class="w-2 h-2 rounded-full bg-arch-accent animate-pulse"></span> Architectural Graduate Portfolio
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight leading-none text-arch-950 dark:text-white">
+                    공간을 <strong class="font-bold">설계</strong>하고,<br>
+                    삶의 <strong class="font-semibold text-arch-accent">경험</strong>을 그리다.
+                </h1>
+                
+                <p class="text-arch-600 dark:text-arch-300 text-base sm:text-lg max-w-xl leading-relaxed">
+                    안녕하세요! 5년제 건축학 전공 졸업예정자 **김건축**입니다. 도시와 유기적으로 소통하고 인간 중심의 디테일을 강조하는 지속가능한 공간 설계를 추구합니다. BIM 중심의 실무 설계 프로세스와 감도 높은 그래픽 기술로 비전을 현실화합니다.
+                </p>
+
+                <!-- Hero Actions -->
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#projects" class="px-6 py-3 bg-arch-accent hover:bg-blue-700 text-white rounded-lg font-medium tracking-wide transition-all shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 flex items-center gap-2">
+                        <span>프로젝트 보러가기</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#about" class="px-6 py-3 bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 hover:border-arch-400 dark:hover:border-arch-600 rounded-lg font-medium tracking-wide transition-all">
+                        소개 & 설계 철학
+                    </a>
+                </div>
+
+                <!-- Fast Statistics -->
+                <div class="grid grid-cols-3 gap-6 pt-10 border-t border-arch-200 dark:border-arch-800 max-w-md">
+                    <div>
+                        <div class="text-3xl font-bold">5년제</div>
+                        <div class="text-xs text-arch-500 dark:text-arch-400 mt-1">건축학 학사 과정</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold">8+</div>
+                        <div class="text-xs text-arch-500 dark:text-arch-400 mt-1">설계 프로젝트</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold">3회</div>
+                        <div class="text-xs text-arch-500 dark:text-arch-400 mt-1">공모전 수상 실적</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Architectural Isometric SVG Diagram -->
+            <div class="lg:col-span-5 flex justify-center items-center relative min-h-[350px]">
+                <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/5 to-purple-500/5 rounded-full blur-3xl -z-10"></div>
+                
+                <!-- Stylized Isometric Building Line Art SVG -->
+                <svg viewBox="0 0 500 500" class="w-full max-w-[400px] h-auto drop-shadow-xl text-arch-900 dark:text-white transition-transform duration-500 hover:scale-105" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <!-- Base Grid / Coordinates -->
+                    <path d="M50,350 L250,450 L450,350" stroke-dasharray="4,4" class="opacity-50" />
+                    <path d="M250,50 L250,450" stroke-dasharray="4,4" class="opacity-30" />
+                    
+                    <!-- Isometric Building Cube 1 (Back Left) -->
+                    <g class="transition-opacity duration-300 hover:opacity-80 cursor-pointer">
+                        <polygon points="120,280 200,320 200,180 120,140" fill="currentColor" fill-opacity="0.03" />
+                        <polygon points="200,320 280,280 280,140 200,180" fill="currentColor" fill-opacity="0.06" />
+                        <polygon points="120,140 200,180 280,140 200,100" fill="currentColor" fill-opacity="0.09" />
+                        <!-- Architectural Blueprint Blueprint Lines (Protruding) -->
+                        <line x1="120" y1="140" x2="80" y2="120" stroke="#2563eb" stroke-dasharray="2,2" />
+                        <line x1="280" y1="140" x2="320" y2="120" stroke="#2563eb" stroke-dasharray="2,2" />
+                        <line x1="200" y1="100" x2="200" y2="40" stroke="#2563eb" stroke-dasharray="2,2" />
+                    </g>
+                    
+                    <!-- Isometric Building Cube 2 (Front Right - Glass Pavilion Concept) -->
+                    <g class="transition-opacity duration-300 hover:opacity-80 cursor-pointer">
+                        <polygon points="220,380 300,340 300,240 220,280" fill="currentColor" fill-opacity="0.02" stroke="#2563eb" stroke-width="2" />
+                        <polygon points="300,340 380,300 380,200 300,240" fill="currentColor" fill-opacity="0.05" />
+                        <polygon points="220,280 300,240 380,200 300,240" fill="currentColor" fill-opacity="0.1" />
+                        <!-- Mullion/Glass grid simulation -->
+                        <line x1="260" y1="360" x2="260" y2="260" stroke-width="0.8" />
+                        <line x1="340" y1="320" x2="340" y2="220" stroke-width="0.8" />
+                        <line x1="220" y1="330" x2="300" y2="290" stroke-dasharray="3,3" stroke-width="0.8" />
+                        <line x1="300" y1="290" x2="380" y2="250" stroke-dasharray="3,3" stroke-width="0.8" />
+                    </g>
+
+                    <!-- Contour/Topography lines flowing underneath -->
+                    <path d="M 50,400 Q 150,420 250,390 T 450,410" stroke-dasharray="5,5" class="opacity-40" />
+                    <path d="M 60,420 Q 160,440 250,410 T 440,430" stroke-dasharray="5,5" class="opacity-30" />
+                    
+                    <!-- Decorative Dimensions & Marks -->
+                    <text x="50" y="250" font-family="monospace" font-size="10" class="fill-current opacity-60">EL. 150.000</text>
+                    <text x="350" y="440" font-family="monospace" font-size="10" class="fill-current opacity-60">GL. +0.00</text>
+                    
+                    <!-- Accent Target Circle -->
+                    <circle cx="200" cy="180" r="4" fill="#2563eb" />
+                    <circle cx="200" cy="180" r="12" stroke="#2563eb" stroke-width="1" stroke-dasharray="2,2" class="animate-spin" style="transform-origin: 200px 180px; animation-duration: 8s;" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-60 hover:opacity-100 transition-opacity">
+            <span class="text-xs tracking-widest font-light">SCROLL</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce"></i>
+        </div>
+    </section>
+
+    <!-- -->
+    <!-- ABOUT ME & PHILOSOPHY SECTION -->
+    <section id="about" class="py-24 px-6 max-w-7xl mx-auto border-t border-arch-200 dark:border-arch-800">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left Header -->
+            <div class="lg:col-span-4 space-y-4">
+                <span class="text-arch-accent font-mono text-sm tracking-wider uppercase">// 01. ABOUT ME</span>
+                <h2 class="text-3xl font-bold tracking-tight">건축관 및<br>설계 프로세스</h2>
+                <p class="text-arch-500 dark:text-arch-400 leading-relaxed text-sm">
+                    건축은 단순히 형태를 구축하는 것이 아닌, 시간의 흐름과 공간을 점유하는 생태계의 조화를 만들어내는 예술이자 공학입니다.
+                </p>
+                
+                <!-- Profile Image Placeholder with Elegant architectural layout -->
+                <div class="relative group overflow-hidden rounded-xl border border-arch-200 dark:border-arch-800 mt-6 aspect-[4/5] bg-arch-100 dark:bg-arch-900 flex items-center justify-center">
+                    <!-- SVG Profile Mockup (Elegant Line-art Silhouette) -->
+                    <svg viewBox="0 0 200 250" class="w-2/3 h-auto opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-300 text-arch-700 dark:text-arch-300" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M100,60 C120,60 135,75 135,95 C135,115 120,130 100,130 C80,130 65,115 65,95 C65,75 80,60 100,60 Z" />
+                        <path d="M40,210 C40,165 67,145 100,145 C133,145 160,165 160,210" stroke-linecap="round" />
+                        <!-- Architectural focus circles behind silhouette -->
+                        <circle cx="100" cy="95" r="45" stroke="#2563eb" stroke-dasharray="3,3" stroke-width="1" />
+                    </svg>
+                    <div class="absolute bottom-4 left-4 bg-white/90 dark:bg-arch-950/90 backdrop-blur border border-arch-200 dark:border-arch-800 px-3 py-2 rounded shadow-sm">
+                        <p class="text-xs font-bold">김건축 / KIM ARCHI</p>
+                        <p class="text-[10px] text-arch-500">1999.04.12 | 서울 거주</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="lg:col-span-8 space-y-8">
+                <!-- Architecture Philosophy -->
+                <div class="bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-arch-accent">
+                        <i data-lucide="compass" class="w-5 h-5"></i> "건축은 도시와 사람의 인터페이스이다"
+                    </h3>
+                    <p class="text-arch-600 dark:text-arch-300 leading-relaxed text-sm sm:text-base">
+                        설계 과정에서 가장 중요하게 생각하는 것은 **공공성(Publicness)**과 **지속가능성(Sustainability)**입니다. 건축물은 개별 자산이면서 동시에 도시 경관의 일부분입니다. 그렇기에 주변 맥락(Context)을 면밀히 분석하고, 기후 변화에 능동적으로 반응할 수 있는 패시브 솔루션과 친환경 재료를 조화롭게 융합시키는 방식을 연구해왔습니다.
+                    </p>
+                </div>
+
+                <!-- Skill Grid & Tools -->
+                <div class="space-y-6">
+                    <h3 class="text-lg font-bold">보유 건축 설계 툴 (Software Skills)</h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- BIM & CAD -->
+                        <div class="p-5 bg-white dark:bg-arch-900 rounded-xl border border-arch-200 dark:border-arch-800 space-y-4">
+                            <h4 class="text-sm font-bold tracking-wider uppercase border-b border-arch-100 dark:border-arch-800 pb-2 flex justify-between items-center">
+                                <span>BIM & CAD</span>
+                                <i data-lucide="layers" class="w-4 h-4 text-arch-accent"></i>
+                            </h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>Revit (BIM 설계 및 패밀리 제작)</span>
+                                        <span>90%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-arch-accent h-full rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>AutoCAD (인허가 및 상세 디테일)</span>
+                                        <span>95%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-arch-accent h-full rounded-full" style="width: 95%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3D Modelling & Parametric -->
+                        <div class="p-5 bg-white dark:bg-arch-900 rounded-xl border border-arch-200 dark:border-arch-800 space-y-4">
+                            <h4 class="text-sm font-bold tracking-wider uppercase border-b border-arch-100 dark:border-arch-800 pb-2 flex justify-between items-center">
+                                <span>3D Modelling & Parametric</span>
+                                <i data-lucide="activity" class="w-4 h-4 text-emerald-500"></i>
+                            </h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>Rhinoceros & Grasshopper</span>
+                                        <span>85%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-500 h-full rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>SketchUp</span>
+                                        <span>90%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-500 h-full rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visualization -->
+                        <div class="p-5 bg-white dark:bg-arch-900 rounded-xl border border-arch-200 dark:border-arch-800 space-y-4">
+                            <h4 class="text-sm font-bold tracking-wider uppercase border-b border-arch-100 dark:border-arch-800 pb-2 flex justify-between items-center">
+                                <span>Visualization</span>
+                                <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+                            </h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>Twinmotion / Lumion / Enscape</span>
+                                        <span>90%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-amber-500 h-full rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>V-Ray (High-end rendering)</span>
+                                        <span>80%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-amber-500 h-full rounded-full" style="width: 80%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Editorial & Presentation -->
+                        <div class="p-5 bg-white dark:bg-arch-900 rounded-xl border border-arch-200 dark:border-arch-800 space-y-4">
+                            <h4 class="text-sm font-bold tracking-wider uppercase border-b border-arch-100 dark:border-arch-800 pb-2 flex justify-between items-center">
+                                <span>Editorial & Presentation</span>
+                                <i data-lucide="image" class="w-4 h-4 text-indigo-500"></i>
+                            </h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>Photoshop & Illustrator (포스트 프로덕션)</span>
+                                        <span>95%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-indigo-500 h-full rounded-full" style="width: 95%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span>InDesign (포트폴리오 제안서 레이아웃)</span>
+                                        <span>90%</span>
+                                    </div>
+                                    <div class="w-full bg-arch-100 dark:bg-arch-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-indigo-500 h-full rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -->
+    <!-- PORTFOLIO PROJECTS GALLERY SECTION -->
+    <section id="projects" class="py-24 px-6 max-w-7xl mx-auto border-t border-arch-200 dark:border-arch-800">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div class="space-y-4">
+                <span class="text-arch-accent font-mono text-sm tracking-wider uppercase">// 02. PORTFOLIO</span>
+                <h2 class="text-3xl font-bold tracking-tight">주요 설계 프로젝트</h2>
+                <p class="text-arch-500 dark:text-arch-400 max-w-lg text-sm">
+                    구상 단계의 콘셉트 드로잉부터 BIM 기반 실시설계, 패널 가공 단계의 모델링까지 주도적으로 수행한 프로젝트 리스트입니다.
+                </p>
+            </div>
+
+            <!-- Project Filters -->
+            <div class="flex flex-wrap gap-2 text-xs font-semibold tracking-wide">
+                <button onclick="filterProjects('all')" id="btn-all" class="px-4 py-2 bg-arch-900 text-white dark:bg-white dark:text-arch-950 rounded-full transition-all">ALL</button>
+                <button onclick="filterProjects('public')" id="btn-public" class="px-4 py-2 bg-white dark:bg-arch-900 text-arch-600 dark:text-arch-300 border border-arch-200 dark:border-arch-800 rounded-full hover:border-arch-400 dark:hover:border-arch-600 transition-all">PUBLIC / COMMERCIAL</button>
+                <button onclick="filterProjects('residential')" id="btn-residential" class="px-4 py-2 bg-white dark:bg-arch-900 text-arch-600 dark:text-arch-300 border border-arch-200 dark:border-arch-800 rounded-full hover:border-arch-400 dark:hover:border-arch-600 transition-all">RESIDENTIAL</button>
+                <button onclick="filterProjects('parametric')" id="btn-parametric" class="px-4 py-2 bg-white dark:bg-arch-900 text-arch-600 dark:text-arch-300 border border-arch-200 dark:border-arch-800 rounded-full hover:border-arch-400 dark:hover:border-arch-600 transition-all">PARAMETRIC</button>
+            </div>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="project-grid">
+            
+            <!-- Project Card 1: Mapo Regenerative Hub -->
+            <div class="project-card group bg-white dark:bg-arch-900 rounded-2xl border border-arch-200 dark:border-arch-800 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md" data-category="public">
+                <!-- Visual Thumb -->
+                <div class="aspect-video bg-arch-100 dark:bg-arch-800 relative overflow-hidden flex items-center justify-center p-4 border-b border-arch-200 dark:border-arch-800">
+                    <svg viewBox="0 0 300 170" class="w-full h-full text-arch-800 dark:text-arch-200" fill="none" stroke="currentColor" stroke-width="1.2">
+                        <!-- Contour Lines (Topography representation) -->
+                        <path d="M10,140 Q80,110 150,130 T290,120" stroke-dasharray="2,2" class="opacity-40" stroke="#2563eb" />
+                        <path d="M10,155 Q80,125 150,145 T290,135" stroke-dasharray="2,2" class="opacity-20" stroke="#2563eb" />
+                        <!-- Industrial Adaptive Reuse structure skeleton -->
+                        <rect x="50" y="50" width="80" height="70" stroke-width="1" fill="currentColor" fill-opacity="0.05" />
+                        <rect x="130" y="70" width="120" height="50" stroke-width="1" fill="currentColor" fill-opacity="0.08" />
+                        <!-- Truss system overhead -->
+                        <path d="M50,50 L90,20 L130,50 L190,40 L250,70" />
+                        <path d="M50,50 L130,50 M130,70 L250,70" />
+                        <line x1="90" y1="20" x2="90" y2="50" />
+                        <line x1="190" y1="40" x2="190" y2="70" />
+                        <!-- Accents -->
+                        <circle cx="90" cy="20" r="3" fill="#2563eb" />
+                        <circle cx="190" cy="40" r="3" fill="#2563eb" />
+                    </svg>
+                    <span class="absolute top-3 left-3 px-2 py-1 rounded bg-arch-950/80 text-white text-[10px] tracking-wider font-mono">B.Arch 5th Year | Graduation Work</span>
+                </div>
+                <!-- Details -->
+                <div class="p-6 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-semibold text-arch-accent uppercase font-mono">
+                        <span>Adaptive Reuse / Public</span>
+                        <span>2026</span>
+                    </div>
+                    <h3 class="text-xl font-bold group-hover:text-arch-accent transition-colors">마포 석유비축기지 재생 허브 설계</h3>
+                    <p class="text-arch-500 dark:text-arch-400 text-sm line-clamp-2">
+                        산업 유산인 비축기지의 물리적 역사성을 보존하면서, 친환경 하이브리드 목구조 목조 트러스 시스템을 결합한 스마트 문화공동체 중심 설계안입니다.
+                    </p>
+                    <button onclick="openProjectModal('mapo')" class="pt-4 text-xs font-bold tracking-widest uppercase flex items-center gap-1.5 hover:text-arch-accent transition-colors">
+                        <span>View Project</span>
+                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Project Card 2: Parametric Pavilion -->
+            <div class="project-card group bg-white dark:bg-arch-900 rounded-2xl border border-arch-200 dark:border-arch-800 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md" data-category="parametric">
+                <!-- Visual Thumb -->
+                <div class="aspect-video bg-arch-100 dark:bg-arch-800 relative overflow-hidden flex items-center justify-center p-4 border-b border-arch-200 dark:border-arch-800">
+                    <svg viewBox="0 0 300 170" class="w-full h-full text-arch-800 dark:text-arch-200" fill="none" stroke="currentColor" stroke-width="1.2">
+                        <!-- Parametric Curved Lines -->
+                        <path d="M40,130 C90,30 140,50 170,110" stroke="#10b981" stroke-width="1.5" />
+                        <path d="M60,130 C105,40 150,60 180,115" stroke="#10b981" stroke-width="1" class="opacity-80" />
+                        <path d="M80,130 C120,50 160,70 190,120" stroke="#10b981" stroke-width="0.8" class="opacity-60" />
+                        <path d="M100,130 C135,60 170,80 200,125" stroke="#10b981" stroke-dasharray="2,2" stroke-width="0.8" class="opacity-40" />
+                        <!-- Connections / Voronoi points simulation -->
+                        <line x1="90" y1="80" x2="105" y2="83" stroke-width="0.5" />
+                        <line x1="105" y1="83" x2="120" y2="90" stroke-width="0.5" />
+                        <line x1="120" y1="90" x2="135" y2="95" stroke-width="0.5" />
+                        <line x1="135" y1="95" x2="100" y2="103" stroke-width="0.5" />
+                        <!-- Base Platform -->
+                        <ellipse cx="150" cy="135" rx="110" ry="15" fill="currentColor" fill-opacity="0.05" />
+                    </svg>
+                    <span class="absolute top-3 left-3 px-2 py-1 rounded bg-arch-950/80 text-white text-[10px] tracking-wider font-mono font-bold">Academic Project | Prize Winner</span>
+                </div>
+                <!-- Details -->
+                <div class="p-6 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-semibold text-emerald-500 uppercase font-mono">
+                        <span>Parametric / Pavilion</span>
+                        <span>2025</span>
+                    </div>
+                    <h3 class="text-xl font-bold group-hover:text-arch-accent transition-colors">유동적 캐노피: 파라메트릭 파빌리온</h3>
+                    <p class="text-arch-500 dark:text-arch-400 text-sm line-clamp-2">
+                        Grasshopper 알고리즘을 활용한 복합 곡면 최적화 연구. 일조 센서 데이터 연계 가변 유기 루버를 활용해 계절별 차폐율을 미세 제어합니다.
+                    </p>
+                    <button onclick="openProjectModal('pavilion')" class="pt-4 text-xs font-bold tracking-widest uppercase flex items-center gap-1.5 hover:text-arch-accent transition-colors">
+                        <span>View Project</span>
+                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Project Card 3: Urban Eco-Housing -->
+            <div class="project-card group bg-white dark:bg-arch-900 rounded-2xl border border-arch-200 dark:border-arch-800 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md" data-category="residential">
+                <!-- Visual Thumb -->
+                <div class="aspect-video bg-arch-100 dark:bg-arch-800 relative overflow-hidden flex items-center justify-center p-4 border-b border-arch-200 dark:border-arch-800">
+                    <svg viewBox="0 0 300 170" class="w-full h-full text-arch-800 dark:text-arch-200" fill="none" stroke="currentColor" stroke-width="1.2">
+                        <!-- Terraced Housing Blocks -->
+                        <polygon points="40,140 100,140 100,80 40,80" fill="currentColor" fill-opacity="0.05" />
+                        <polygon points="100,140 160,140 160,60 100,60" fill="currentColor" fill-opacity="0.08" />
+                        <polygon points="160,140 220,140 220,40 160,40" fill="currentColor" fill-opacity="0.12" />
+                        <!-- Solar Panels -->
+                        <line x1="70" y1="80" x2="90" y2="70" stroke="#eab308" stroke-width="1.5" />
+                        <line x1="130" y1="60" x2="150" y2="50" stroke="#eab308" stroke-width="1.5" />
+                        <line x1="190" y1="40" x2="210" y2="30" stroke="#eab308" stroke-width="1.5" />
+                        <!-- Connecting Green Terraces with minimal trees -->
+                        <path d="M100,80 Q130,75 160,60" stroke="#10b981" stroke-width="2" />
+                        <circle cx="120" cy="74" r="3" fill="#10b981" />
+                        <circle cx="180" cy="52" r="3" fill="#10b981" />
+                        <!-- Ground line -->
+                        <line x1="20" y1="140" x2="280" y2="140" stroke-width="1" />
+                    </svg>
+                    <span class="absolute top-3 left-3 px-2 py-1 rounded bg-arch-950/80 text-white text-[10px] tracking-wider font-mono">B.Arch 4th Year | Design Studio</span>
+                </div>
+                <!-- Details -->
+                <div class="p-6 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-semibold text-amber-500 uppercase font-mono">
+                        <span>Eco-Residential</span>
+                        <span>2024</span>
+                    </div>
+                    <h3 class="text-xl font-bold group-hover:text-arch-accent transition-colors">테라스 링크: 도심형 청년 코리빙 주택</h3>
+                    <p class="text-arch-500 dark:text-arch-400 text-sm line-clamp-2">
+                        계단식 친환경 테라스를 통해 인근 근린공원을 주거 단지 상부로 연장하는 친자연적 셰어하우스 건축 제안서입니다.
+                    </p>
+                    <button onclick="openProjectModal('housing')" class="pt-4 text-xs font-bold tracking-widest uppercase flex items-center gap-1.5 hover:text-arch-accent transition-colors">
+                        <span>View Project</span>
+                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -->
+    <!-- PROFESSIONAL EXPERIENCE & COMPETITIONS TIMELINE -->
+    <section id="experience" class="py-24 px-6 max-w-7xl mx-auto border-t border-arch-200 dark:border-arch-800">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left Header -->
+            <div class="lg:col-span-4 space-y-4">
+                <span class="text-arch-accent font-mono text-sm tracking-wider uppercase">// 03. EXPERIENCE</span>
+                <h2 class="text-3xl font-bold tracking-tight">이력 및 수상 경력</h2>
+                <p class="text-arch-500 dark:text-arch-400 text-sm leading-relaxed">
+                    대학 5개년 동안 참여해왔던 인턴십 실무 경험, 전시 활동, 국내외 저명 설계 공모전의 수상 내역 리스트입니다.
+                </p>
+                <div class="pt-4">
+                    <a href="#contact" class="inline-flex items-center gap-2 text-sm font-bold text-arch-accent hover:underline">
+                        <span>추천서 또는 경력증명서 요청하기</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Timeline Grid -->
+            <div class="lg:col-span-8 relative pl-6 border-l border-arch-200 dark:border-arch-800 space-y-12">
+                <!-- Node 1 -->
+                <div class="relative space-y-2">
+                    <!-- Timeline circle decorator -->
+                    <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-arch-accent border-4 border-arch-50 dark:border-arch-950"></div>
+                    <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-arch-200 dark:bg-arch-800">2026.01 - 2026.02</span>
+                    <h3 class="text-lg font-bold">건축설계사무소 (주)도시공간 종합건축사사무소</h3>
+                    <p class="text-xs font-semibold text-arch-500 dark:text-arch-400">실무 수습 인턴사원 (설계본부)</p>
+                    <ul class="list-disc pl-5 text-sm text-arch-600 dark:text-arch-300 space-y-1 mt-2">
+                        <li>BIM (Revit)을 활용한 주상복합 오피스텔 기본설계 및 간섭 체크 검토 피드백 반영.</li>
+                        <li>Twinmotion 활용 프로젝트 조감도 및 주야간 랜더 컷 메인 시각화 작업 지원.</li>
+                    </ul>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="relative space-y-2">
+                    <!-- Timeline circle decorator -->
+                    <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-emerald-500 border-4 border-arch-50 dark:border-arch-950"></div>
+                    <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-arch-200 dark:bg-arch-800">2025.09</span>
+                    <h3 class="text-lg font-bold">대한민국 건축대전</h3>
+                    <p class="text-xs font-semibold text-emerald-500">전국 본선 입선 (Prize Winner)</p>
+                    <p class="text-sm text-arch-600 dark:text-arch-300 leading-relaxed">
+                        도시 가로 유휴 공간을 이용한 친환경 가변 가로 가구 및 파빌리온 모듈 제안서(<em class="italic">The Urban Stitch</em>)를 공동 설계하여 창의적이고 실현 가능한 시공 디테일 부문에서 높은 가치를 인정받음.
+                    </p>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="relative space-y-2">
+                    <!-- Timeline circle decorator -->
+                    <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-arch-400 border-4 border-arch-50 dark:border-arch-950"></div>
+                    <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-arch-200 dark:bg-arch-800">2024.11</span>
+                    <h3 class="text-lg font-bold">국제 학생 아이디어 디자인 공모전</h3>
+                    <p class="text-xs font-semibold text-arch-500 dark:text-arch-400">Honorable Mention 수상</p>
+                    <p class="text-sm text-arch-600 dark:text-arch-300 leading-relaxed">
+                        기후 난민을 위한 해상 수해 조절 조립식 건축 주거 유닛 아이디어 제안. Rhino 및 Grasshopper를 결합한 Parametric 파빌리온 컴포넌트 설계 담당.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -->
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-24 px-6 max-w-7xl mx-auto border-t border-arch-200 dark:border-arch-800">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Contact Left Information -->
+            <div class="lg:col-span-5 space-y-6">
+                <span class="text-arch-accent font-mono text-sm tracking-wider uppercase">// 04. CONTACT</span>
+                <h2 class="text-3xl font-bold tracking-tight">협업 기회를<br>기다리고 있습니다.</h2>
+                <p class="text-arch-500 dark:text-arch-400 text-sm leading-relaxed max-w-sm">
+                    건축설계 파트너십, 인턴십 채용 기회, 기획/인허가 프로젝트 등 가치 있는 공간을 함께 만들고자 하는 팀의 연락을 고대합니다.
+                </p>
+
+                <!-- Icon Infos -->
+                <div class="space-y-4 pt-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 flex items-center justify-center">
+                            <i data-lucide="mail" class="w-4 h-4 text-arch-accent"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-arch-500 tracking-wider font-semibold">EMAIL</p>
+                            <a href="mailto:contact@archi.domain" class="text-sm font-bold hover:underline">contact@architect.com</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 flex items-center justify-center">
+                            <i data-lucide="phone" class="w-4 h-4 text-arch-accent"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-arch-500 tracking-wider font-semibold">PHONE</p>
+                            <a href="tel:010-1234-5678" class="text-sm font-bold hover:underline">010-1234-5678</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 flex items-center justify-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-arch-accent"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-arch-500 tracking-wider font-semibold">LOCATION</p>
+                            <span class="text-sm font-bold">서울특별시 마포구 백범로</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Copy Button for email link -->
+                <div class="pt-2">
+                    <button onclick="copyToClipboard('contact@architect.com')" class="px-4 py-2 bg-arch-100 hover:bg-arch-200 dark:bg-arch-900 dark:hover:bg-arch-800 text-xs font-semibold rounded-lg flex items-center gap-2 transition-all">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> 이메일 주소 복사하기
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contact Form Right -->
+            <div class="lg:col-span-7">
+                <form id="contact-form" onsubmit="handleFormSubmit(event)" class="bg-white dark:bg-arch-900 p-6 sm:p-8 rounded-2xl border border-arch-200 dark:border-arch-800 space-y-6 shadow-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold tracking-wider text-arch-600 dark:text-arch-400" for="name">성함 / 회사명</label>
+                            <input class="w-full px-4 py-3 bg-arch-50 dark:bg-arch-950 border border-arch-200 dark:border-arch-800 rounded-lg text-sm focus:outline-none focus:border-arch-accent transition-colors" type="text" id="name" required placeholder="홍길동">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold tracking-wider text-arch-600 dark:text-arch-400" for="email">연락처 이메일</label>
+                            <input class="w-full px-4 py-3 bg-arch-50 dark:bg-arch-950 border border-arch-200 dark:border-arch-800 rounded-lg text-sm focus:outline-none focus:border-arch-accent transition-colors" type="email" id="email" required placeholder="your@email.com">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold tracking-wider text-arch-600 dark:text-arch-400" for="subject">제안 유형</label>
+                        <select class="w-full px-4 py-3 bg-arch-50 dark:bg-arch-950 border border-arch-200 dark:border-arch-800 rounded-lg text-sm focus:outline-none focus:border-arch-accent transition-colors" id="subject">
+                            <option value="career">인턴쉽 / 신입사원 채용 관련</option>
+                            <option value="project">공동 설계 공모전 참여 제안</option>
+                            <option value="question">포트폴리오 설계안 관련 질문</option>
+                            <option value="etc">기타 제안</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold tracking-wider text-arch-600 dark:text-arch-400" for="message">상세 문의 내용</label>
+                        <textarea rows="4" class="w-full px-4 py-3 bg-arch-50 dark:bg-arch-950 border border-arch-200 dark:border-arch-800 rounded-lg text-sm focus:outline-none focus:border-arch-accent transition-colors resize-none" id="message" required placeholder="협업 희망 내용 혹은 문의사항을 작성해 주세요."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-arch-accent hover:bg-blue-700 text-white font-bold tracking-widest text-xs rounded-lg transition-all shadow-md shadow-blue-500/10 hover:shadow-blue-500/20 uppercase flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i> 메시지 전송하기
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto bg-white dark:bg-arch-950 border-t border-arch-200 dark:border-arch-800 transition-colors py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-center md:text-left space-y-2">
+                <p class="font-bold text-sm tracking-widest uppercase"><span class="text-arch-accent">//</span> ARCH.PORTFOLIO</p>
+                <p class="text-xs text-arch-500 dark:text-arch-400">&copy; 2026 KIM ARCHI. All Rights Reserved. Designed for Architectural Career.</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="#" class="w-8 h-8 rounded-full border border-arch-200 dark:border-arch-800 flex items-center justify-center hover:border-arch-accent hover:text-arch-accent transition-colors" aria-label="LinkedIn">
+                    <i data-lucide="linkedin" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="w-8 h-8 rounded-full border border-arch-200 dark:border-arch-800 flex items-center justify-center hover:border-arch-accent hover:text-arch-accent transition-colors" aria-label="Github">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="w-8 h-8 rounded-full border border-arch-200 dark:border-arch-800 flex items-center justify-center hover:border-arch-accent hover:text-arch-accent transition-colors" aria-label="Instagram">
+                    <i data-lucide="instagram" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- -->
+    <!-- PORTFOLIO DETAIL MODAL -->
+    <div id="project-modal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-arch-950/80 backdrop-blur-sm" onclick="closeProjectModal()"></div>
+        
+        <!-- Modal Wrapper -->
+        <div class="relative min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-10">
+            <!-- Modal Box -->
+            <div class="relative bg-white dark:bg-arch-900 rounded-3xl border border-arch-200 dark:border-arch-800 max-w-5xl w-full overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+                
+                <!-- Close Button -->
+                <button onclick="closeProjectModal()" class="absolute top-4 right-4 z-10 p-2.5 rounded-full bg-arch-100 dark:bg-arch-800 hover:bg-arch-200 dark:hover:bg-arch-700 transition-colors" aria-label="Close Modal">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12">
+                    
+                    <!-- Left: Project Visual Materials -->
+                    <div class="lg:col-span-7 bg-arch-100 dark:bg-arch-950 p-6 flex flex-col justify-between border-r border-arch-200 dark:border-arch-800 min-h-[350px]">
+                        <!-- Interactive Material Selector Tabs -->
+                        <div class="flex gap-2 text-xs font-bold tracking-wider mb-4">
+                            <button onclick="switchMaterialTab('isometric')" id="tab-isometric" class="px-3 py-1.5 rounded-lg bg-arch-900 text-white dark:bg-white dark:text-arch-900 shadow">Axonometric</button>
+                            <button onclick="switchMaterialTab('plan')" id="tab-plan" class="px-3 py-1.5 rounded-lg bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 text-arch-600 dark:text-arch-300">Floor Plan (1F)</button>
+                            <button onclick="switchMaterialTab('site')" id="tab-site" class="px-3 py-1.5 rounded-lg bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 text-arch-600 dark:text-arch-300">Site Analysis</button>
+                        </div>
+
+                        <!-- Canvas/Rendering display area with stylized SVGs depending on selection -->
+                        <div class="flex-grow flex items-center justify-center p-4">
+                            <!-- SVG: Axonometric Rendering View -->
+                            <div id="view-isometric" class="w-full flex justify-center">
+                                <svg id="modal-svg-iso" viewBox="0 0 400 240" class="w-full max-w-[380px] h-auto text-arch-900 dark:text-white" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <!-- Dynamic content based on clicked project populated by JS -->
+                                </svg>
+                            </div>
+
+                            <!-- SVG: Plan Section View -->
+                            <div id="view-plan" class="w-full hidden justify-center">
+                                <svg viewBox="0 0 300 220" class="w-full max-w-[300px] h-auto text-arch-900 dark:text-white" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <!-- Structural grids -->
+                                    <line x1="30" y1="20" x2="30" y2="200" stroke-dasharray="2,5" stroke="#2563eb" />
+                                    <line x1="150" y1="20" x2="150" y2="200" stroke-dasharray="2,5" stroke="#2563eb" />
+                                    <line x1="270" y1="20" x2="270" y2="200" stroke-dasharray="2,5" stroke="#2563eb" />
+                                    <line x1="20" y1="40" x2="280" y2="40" stroke-dasharray="2,5" stroke="#2563eb" />
+                                    <line x1="20" y1="180" x2="280" y2="180" stroke-dasharray="2,5" stroke="#2563eb" />
+                                    
+                                    <!-- Column locations -->
+                                    <rect x="27" y="37" width="6" height="6" fill="currentColor" />
+                                    <rect x="147" y="37" width="6" height="6" fill="currentColor" />
+                                    <rect x="267" y="37" width="6" height="6" fill="currentColor" />
+                                    <rect x="27" y="177" width="6" height="6" fill="currentColor" />
+                                    <rect x="147" y="177" width="6" height="6" fill="currentColor" />
+                                    <rect x="267" y="177" width="6" height="6" fill="currentColor" />
+
+                                    <!-- Internal/External Walls -->
+                                    <rect x="40" y="50" width="220" height="120" stroke-width="2" />
+                                    <line x1="140" y1="50" x2="140" y2="170" stroke-width="1.5" />
+                                    
+                                    <!-- Door Swing -->
+                                    <path d="M70,50 A30,30 0 0,1 100,20 L100,50 Z" />
+                                    <line x1="100" y1="50" x2="70" y2="50" />
+                                    
+                                    <!-- Annotations -->
+                                    <text x="50" y="110" font-family="monospace" font-size="9" fill="currentColor" class="opacity-60">COMMUNITY HALL</text>
+                                    <text x="160" y="110" font-family="monospace" font-size="9" fill="currentColor" class="opacity-60">OFFICE HUB</text>
+                                </svg>
+                            </div>
+
+                            <!-- SVG: Site Analysis View -->
+                            <div id="view-site" class="w-full hidden justify-center">
+                                <svg viewBox="0 0 300 220" class="w-full max-w-[300px] h-auto text-arch-900 dark:text-white" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <!-- Compass block -->
+                                    <circle cx="250" cy="50" r="15" />
+                                    <line x1="250" y1="30" x2="250" y2="70" />
+                                    <line x1="230" y1="50" x2="270" y2="50" />
+                                    <text x="247" y="27" font-size="8" fill="currentColor">N</text>
+
+                                    <!-- Site contour map boundaries -->
+                                    <path d="M20,60 Q100,10 200,80 T280,120" stroke-dasharray="4,4" />
+                                    
+                                    <!-- Noise / Sun path diagram -->
+                                    <path d="M50,180 A120,120 0 0,1 230,120" stroke="#eab308" stroke-width="1.5" stroke-dasharray="3,3" />
+                                    <circle cx="230" cy="120" r="4" fill="#eab308" />
+                                    <text x="210" y="110" font-size="8" fill="#eab308">SUMMER SUN</text>
+
+                                    <!-- Wind direction -->
+                                    <path d="M40,50 L80,50" stroke="#2563eb" stroke-width="1.5" />
+                                    <path d="M70,45 L80,50 L70,55" fill="#2563eb" />
+                                    <text x="40" y="40" font-size="8" fill="#2563eb">PREVAILING WIND</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Info bar inside visualizer -->
+                        <p class="text-[10px] text-arch-500 text-center tracking-wider">
+                            * 본 도면 및 그래픽스 설계는 창작 권한 보호 하에 있으며, 훼손이나 상업적 무단 배포를 금합니다.
+                        </p>
+                    </div>
+
+                    <!-- Right: Design Spec Sheets -->
+                    <div class="lg:col-span-5 p-8 space-y-6 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <span id="modal-category" class="text-xs font-mono font-semibold text-arch-accent uppercase tracking-wider">Public / Renovation</span>
+                            <h3 id="modal-title" class="text-2xl font-bold">마포 석유비축기지 재생 허브 설계</h3>
+                            
+                            <div class="grid grid-cols-2 gap-4 py-4 border-y border-arch-200 dark:border-arch-800 text-xs font-medium">
+                                <div>
+                                    <p class="text-arch-500 dark:text-arch-400">SITE AREA</p>
+                                    <p id="modal-site" class="text-sm font-bold mt-0.5">14,230 ㎡</p>
+                                </div>
+                                <div>
+                                    <p class="text-arch-500 dark:text-arch-400">STRUCTURE</p>
+                                    <p id="modal-structure" class="text-sm font-bold mt-0.5">Heavy Timber Truss</p>
+                                </div>
+                                <div>
+                                    <p class="text-arch-500 dark:text-arch-400">LOCATION</p>
+                                    <p id="modal-location" class="text-sm font-bold mt-0.5">서울 마포구 성산동</p>
+                                </div>
+                                <div>
+                                    <p class="text-arch-500 dark:text-arch-400">DRAFT TOOL</p>
+                                    <p id="modal-tools" class="text-sm font-bold mt-0.5">Revit, Rhino, PS</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-arch-500">Design Concept Statement</h4>
+                                <p id="modal-description" class="text-sm text-arch-600 dark:text-arch-300 leading-relaxed">
+                                    기존 석유비축탱크의 원형 기하학적 형태를 구조물 메인 그리드로 유지하고 신설 목조 아치 구조물이 덧씌워져 역사를 복원하면서도 최신 공법을 융화시킨 복합설계 솔루션입니다.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <button onclick="mockDetailPdf()" class="w-full py-3 bg-arch-900 text-white dark:bg-white dark:text-arch-950 font-bold text-xs rounded-xl hover:bg-arch-accent dark:hover:bg-arch-accent dark:hover:text-white transition-colors flex items-center justify-center gap-2">
+                                <i data-lucide="file-text" class="w-4 h-4"></i> 상세 기획서 패널 다운로드 (PDF)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF PORTFOLIO DOWNLOAD MODAL -->
+    <div id="pdf-modal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="fixed inset-0 bg-arch-950/80 backdrop-blur-sm" onclick="closePdfModal()"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="relative bg-white dark:bg-arch-900 rounded-2xl border border-arch-200 dark:border-arch-800 max-w-md w-full p-6 sm:p-8 space-y-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
+                <button onclick="closePdfModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-arch-100 dark:hover:bg-arch-800 transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+
+                <div class="text-center space-y-3">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/40 text-arch-accent flex items-center justify-center mx-auto">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">건축 포트폴리오 다운로드</h3>
+                    <p class="text-sm text-arch-500 dark:text-arch-400">
+                        전체 설계 도면과 분석 다이어그램이 수록된 PDF 풀버전 포트폴리오 파일 다운로드 방식을 제어합니다.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="simulateDownload('High-Res Portfolio')" class="w-full py-3.5 bg-arch-accent hover:bg-blue-700 text-white rounded-xl text-xs font-bold flex items-center justify-between px-5 transition-all">
+                        <span>인쇄용 고해상도 버전 (45.2 MB)</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="simulateDownload('Web-Optimized Portfolio')" class="w-full py-3.5 bg-arch-100 hover:bg-arch-200 dark:bg-arch-800 dark:hover:bg-arch-700 text-arch-900 dark:text-white rounded-xl text-xs font-bold flex items-center justify-between px-5 transition-all">
+                        <span>웹 전송 최적화 버전 (12.8 MB)</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="simulateDownload('CV & Cover Letter')" class="w-full py-3.5 bg-arch-50 hover:bg-arch-100 dark:bg-arch-950 dark:hover:bg-arch-900 text-arch-600 dark:text-arch-400 rounded-xl text-xs font-bold flex items-center justify-between px-5 transition-all border border-arch-200 dark:border-arch-800">
+                        <span>이력서 및 자기소개서 단독 본 (1.2 MB)</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UI TOAST MESSAGE BOX -->
+    <div id="toast-message" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 max-w-sm w-full bg-arch-900 dark:bg-white text-white dark:text-arch-950 px-5 py-4 rounded-xl shadow-2xl border border-arch-800 dark:border-arch-100 flex items-center gap-3">
+        <div class="p-1 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+            <i data-lucide="check" class="w-4 h-4"></i>
+        </div>
+        <div>
+            <p id="toast-title" class="text-xs font-bold tracking-wider uppercase">SUCCESS</p>
+            <p id="toast-body" class="text-xs text-arch-300 dark:text-arch-600 mt-0.5">복사가 완료되었습니다.</p>
+        </div>
+    </div>
+
+    <!-- -->
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // Project Dataset mock data
+        const projectData = {
+            mapo: {
+                title: '마포 석유비축기지 재생 허브 설계',
+                category: 'Adaptive Reuse / Public',
+                year: '2026',
+                site: '14,230 ㎡',
+                structure: 'Heavy Timber Truss (중목 조립식 트러스)',
+                location: '서울 마포구 성산동',
+                tools: 'Revit, Rhino, Enscape, PS',
+                description: '기존 석유비축탱크의 원형 기하학적 형태를 구조물 메인 그리드로 유지하고 신설 목조 아치 구조물이 덧씌워져 역사를 복원하면서도 최신 공법을 융화시킨 복합설계 솔루션입니다. 내부 공간의 보존과 친환경 에너지 자립도를 동시에 만족하도록 설계했습니다.',
+                isoSvg: `
+                    <!-- Isometric for Mapo Hub -->
+                    <polygon points="100,200 200,240 200,100 100,60" fill="currentColor" fill-opacity="0.04" />
+                    <polygon points="200,240 300,200 300,60 200,100" fill="currentColor" fill-opacity="0.08" />
+                    <polygon points="100,60 200,100 300,60 200,20" fill="currentColor" fill-opacity="0.12" />
+                    <circle cx="200" cy="100" r="40" stroke="#2563eb" stroke-dasharray="3,3" />
+                    <line x1="200" y1="20" x2="200" y2="240" stroke-width="0.8" />
+                    <line x1="100" y1="60" x2="300" y2="200" stroke-dasharray="2,2" />
+                    <line x1="300" y1="60" x2="100" y2="200" stroke-dasharray="2,2" />
+                `
+            },
+            pavilion: {
+                title: '유동적 캐노피: 파라메트릭 파빌리온',
+                category: 'Parametric / Pavilion',
+                year: '2025',
+                site: '120 ㎡',
+                structure: 'GFRP Parametric Shell Structure',
+                location: '건축대학 정원 스퀘어',
+                tools: 'Rhino 7, Grasshopper, V-Ray, IL',
+                description: 'Grasshopper 알고리즘을 활용한 복합 곡면 최적화 및 태양 추적 시스템 적용 루버 설계입니다. 일조 센서에 연결되어 실시간으로 가동되는 키네틱 구조물의 스케일을 조절하고 파빌리온 하부 공간의 미기후 조절을 가능하게 합니다.',
+                isoSvg: `
+                    <!-- Isometric for Pavilion -->
+                    <path d="M50,150 C100,50 150,50 200,120 T350,150" stroke="#10b981" stroke-width="2" />
+                    <path d="M70,150 C110,60 160,60 210,125 T330,150" stroke="#10b981" stroke-width="1.5" stroke-dasharray="2,2" />
+                    <path d="M90,150 C120,70 170,70 220,130 T310,150" stroke="#10b981" stroke-width="1" class="opacity-50" />
+                    <line x1="130" y1="85" x2="130" y2="150" stroke-width="0.5" />
+                    <line x1="190" y1="110" x2="190" y2="150" stroke-width="0.5" />
+                    <circle cx="130" cy="85" r="4" fill="#10b981" />
+                    <circle cx="190" cy="110" r="4" fill="#10b981" />
+                `
+            },
+            housing: {
+                title: '테라스 링크: 도심형 청년 코리빙 주택',
+                category: 'Eco-Residential',
+                year: '2024',
+                site: '3,840 ㎡',
+                structure: 'RC + Steel Frame Box Module',
+                location: '서울 마포구 공덕동 일대',
+                tools: 'SketchUp, Twinmotion, InDesign',
+                description: '밀도가 높고 유휴 공공지가 적은 도심 청년 세대 주거의 대안입니다. 계단형 모듈 조합을 통해 주민 공용 정원을 옥상 가로 형태로 연결하며, 모듈화 공법을 적용하여 설계 유연성과 공사 기간 단축을 최적화한 주동 배치 계획안입니다.',
+                isoSvg: `
+                    <!-- Isometric for Housing -->
+                    <rect x="80" y="80" width="60" height="120" stroke="currentColor" fill="currentColor" fill-opacity="0.05" />
+                    <rect x="140" y="110" width="60" height="90" stroke="currentColor" fill="currentColor" fill-opacity="0.08" />
+                    <rect x="200" y="140" width="60" height="60" stroke="currentColor" fill="currentColor" fill-opacity="0.12" />
+                    <path d="M140,80 L200,110" stroke="#eab308" stroke-width="2" />
+                    <path d="M200,110 L260,140" stroke="#eab308" stroke-width="2" />
+                    <line x1="80" y1="200" x2="260" y2="200" stroke-width="1.5" />
+                    <circle cx="110" cy="80" r="3" fill="#eab308" />
+                    <circle cx="170" cy="110" r="3" fill="#eab308" />
+                `
+            }
+        };
+
+        // Initialize Lucide icons on document load
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Auto dark-mode detection or default to dark (Architect preferred)
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Toggle mobile nav drawer
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            const isOpen = menu.classList.contains('translate-x-0');
+            
+            if (isOpen) {
+                menu.classList.remove('translate-x-0');
+                menu.classList.add('translate-x-full');
+                icon.setAttribute('data-lucide', 'menu');
+            } else {
+                menu.classList.remove('translate-x-full');
+                menu.classList.add('translate-x-0');
+                icon.setAttribute('data-lucide', 'x');
+            }
+            lucide.createIcons();
+        }
+
+        // Dark/Light Theme Switch
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // Project category filtering logic
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = ['all', 'public', 'residential', 'parametric'];
+            
+            // Reset and update filter button styles
+            buttons.forEach(btn => {
+                const el = document.getElementById(`btn-${btn}`);
+                if (btn === category) {
+                    el.className = 'px-4 py-2 bg-arch-900 text-white dark:bg-white dark:text-arch-950 rounded-full transition-all';
+                } else {
+                    el.className = 'px-4 py-2 bg-white dark:bg-arch-900 text-arch-600 dark:text-arch-300 border border-arch-200 dark:border-arch-800 rounded-full hover:border-arch-400 dark:hover:border-arch-600 transition-all';
+                }
+            });
+
+            // Filter projects cards animation and display toggle
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || cardCategory === category) {
+                    card.classList.remove('hidden');
+                    card.classList.add('animate-in', 'fade-in', 'duration-300');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Project detail modal control
+        function openProjectModal(projectId) {
+            const data = projectData[projectId];
+            if (!data) return;
+
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-category').textContent = data.category;
+            document.getElementById('modal-site').textContent = data.site;
+            document.getElementById('modal-structure').textContent = data.structure;
+            document.getElementById('modal-location').textContent = data.location;
+            document.getElementById('modal-tools').textContent = data.tools;
+            document.getElementById('modal-description').textContent = data.description;
+            
+            // Set SVG content
+            document.getElementById('modal-svg-iso').innerHTML = data.isoSvg;
+
+            // Show modal
+            document.getElementById('project-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden'); // Lock background scroll
+            
+            // Switch tabs to first default
+            switchMaterialTab('isometric');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Toggle inner tabs inside modal visual viewer
+        function switchMaterialTab(tabName) {
+            const tabs = ['isometric', 'plan', 'site'];
+            tabs.forEach(tab => {
+                const btn = document.getElementById(`tab-${tab}`);
+                const view = document.getElementById(`view-${tab}`);
+                
+                if (tab === tabName) {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-arch-900 text-white dark:bg-white dark:text-arch-900 shadow';
+                    view.classList.remove('hidden');
+                    view.classList.add('flex');
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-white dark:bg-arch-900 border border-arch-200 dark:border-arch-800 text-arch-600 dark:text-arch-300';
+                    view.classList.add('hidden');
+                    view.classList.remove('flex');
+                }
+            });
+        }
+
+        // Copy contact data
+        function copyToClipboard(text) {
+            // Using recommended execCommand with textarea fallback due to iframe constraints
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            showToast('복사 완료', '클립보드에 이메일 주소가 복사되었습니다.');
+        }
+
+        // PDF download triggers
+        function openPdfModal() {
+            document.getElementById('pdf-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closePdfModal() {
+            document.getElementById('pdf-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function simulateDownload(fileName) {
+            closePdfModal();
+            showToast('다운로드 시작', `${fileName} 파일 다운로드가 백그라운드에서 진행됩니다.`);
+        }
+
+        function mockDetailPdf() {
+            closeProjectModal();
+            showToast('분석본 다운로드', '프로젝트 상세 가공 패널 기획안 PDF가 준비되고 있습니다.');
+        }
+
+        // Form Submit Handler
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Simulated action
+            showToast('메시지 전송 성공', `${name}님의 문의사항이 성공적으로 보관되었습니다.`);
+            document.getElementById('contact-form').reset();
+        }
+
+        // Global Elegant Toast Controller
+        function showToast(title, body) {
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-title').textContent = title.toUpperCase();
+            document.getElementById('toast-body').textContent = body;
+
+            // Trigger animation in
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                // Trigger animation out
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
